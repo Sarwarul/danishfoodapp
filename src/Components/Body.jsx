@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React ,{ useState,useEffect} from "react";
 import Card from "./Card";
 import Hotellist from "./Hotellist";
 import "./Body.css";
@@ -18,6 +18,22 @@ const Body=()=>{
 // const searchTxt="KFC";
 const[searchTxt,setsearchTxt]=useState("KFC");
 const[Hotel,setHotel]=useState(Hotellist);
+useEffect(()=>{
+console.log("ATif");
+  getHotels();
+},[]);
+
+async function getHotels()
+{
+  console.log("Danish");
+  const data= await fetch(
+    "https://www.swiggy.com/dapi/restaurants/list/v5?lat=25.5940499&lng=85.1376051&page_type=DESKTOP_WEB_LISTING"
+  );
+  console.log( "ATIF",data);
+
+  const json= await data.json();
+  setHotel(json?.data?.card[2]?.data?.data?.cards);
+}
   return(
     <>
     <div className="search-container">
